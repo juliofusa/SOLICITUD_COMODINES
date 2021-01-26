@@ -14,13 +14,15 @@
         android:layout_marginBottom="8dp"
         android:text="@string/CANCELAR"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2" />
 
     <Button
         android:id="@+id/button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:backgroundTint="@color/design_default_color_error"
@@ -28,102 +30,127 @@
         android:text="@string/SOLICITUD"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/button_second" />
+        app:layout_constraintStart_toEndOf="@+id/button_second"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/ED_GESTOR"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"
         android:background="@android:color/holo_orange_light"
-        android:ems="10"
+        android:ems="9"
         android:gravity="center_horizontal"
         android:hint="GESTOR"
         android:inputType="textPersonName"
         android:maxLines="1"
+        app:layout_constraintEnd_toStartOf="@+id/ED_FECHA"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextDate"
+        android:id="@+id/ED_FECHA"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="4dp"
         android:background="@android:color/holo_orange_light"
-        android:ems="10"
+        android:ems="9"
         android:gravity="center_horizontal"
         android:hint="FECHA"
         android:inputType="date"
         android:maxLines="1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/editTextTextPersonName"
+        app:layout_constraintEnd_toStartOf="@+id/BT_FECHA"
+        app:layout_constraintStart_toEndOf="@+id/ED_GESTOR"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/SP_CLIENTES"
         android:layout_width="0dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:background="@color/purple_200"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
-
-    <EditText
-        android:id="@+id/editTextTime"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@color/teal_200"
-        android:ems="10"
-        android:inputType="time"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTime2"
-        app:layout_constraintEnd_toStartOf="@+id/button2"
-        app:layout_constraintStart_toStartOf="@+id/spinner"
-        app:layout_constraintTop_toBottomOf="@+id/spinner" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:text="Hora Entrada"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/spiner_style"
+        android:spinnerMode="dialog"
+        android:stateListAnimator="@android:animator/fade_in"
+        app:layout_constraintBottom_toTopOf="@+id/ED_HORA_ENTRADA"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/editTextTime"
-        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ED_GESTOR"
+        app:layout_constraintVertical_bias="0.12" />
 
     <EditText
-        android:id="@+id/editTextTime2"
+        android:id="@+id/ED_HORA_ENTRADA"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:background="@android:color/holo_green_light"
+        android:background="@drawable/rectangle"
+        android:backgroundTint="@color/Color_coral_red"
         android:ems="10"
+        android:gravity="clip_horizontal|center_horizontal|center_vertical"
+        android:hint="00:00"
         android:inputType="time"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName2"
-        app:layout_constraintEnd_toEndOf="@+id/editTextTime"
-        app:layout_constraintStart_toStartOf="@+id/editTextTime"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTime" />
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/ED_HORA_SALIDA"
+        app:layout_constraintEnd_toStartOf="@+id/BT_ENTRADA"
+        app:layout_constraintStart_toStartOf="@+id/SP_CLIENTES"
+        app:layout_constraintTop_toBottomOf="@+id/SP_COMODIN" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/BT_ENTRADA"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        android:drawableLeft="@android:drawable/ic_menu_recent_history"
+        android:text="@string/ENTRADA"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/BT_SALIDA"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ED_HORA_ENTRADA"
+        app:layout_constraintTop_toBottomOf="@+id/SP_COMODIN" />
+
+    <EditText
+        android:id="@+id/ED_HORA_SALIDA"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/rectangle"
+        android:backgroundTint="@color/teal_200"
+        android:ems="10"
+        android:gravity="center_horizontal|center_vertical"
+        android:hint="00:00"
+        android:inputType="time"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/BT_SALIDA"
+        app:layout_constraintEnd_toEndOf="@+id/ED_HORA_ENTRADA"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/ED_HORA_ENTRADA"
+        app:layout_constraintTop_toBottomOf="@+id/ED_HORA_ENTRADA" />
+
+    <Button
+        android:id="@+id/BT_SALIDA"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="HORA SALIDA"
-        app:layout_constraintEnd_toEndOf="@+id/button2"
-        app:layout_constraintStart_toStartOf="@+id/button2"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
+        android:drawableLeft="@android:drawable/ic_menu_recent_history"
+        android:text="@string/CLIENTES"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@+id/BT_ENTRADA"
+        app:layout_constraintStart_toStartOf="@+id/BT_ENTRADA"
+        app:layout_constraintTop_toBottomOf="@+id/BT_ENTRADA" />
 
     <EditText
         android:id="@+id/editTextTextPersonName2"
@@ -133,8 +160,8 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:background="@color/AMARILLO"
-        android:backgroundTint="@color/AMARILLO"
+        android:background="@drawable/rectangle"
+        android:backgroundTint="@color/Color_GRIS_perla"
         android:ems="10"
         android:gravity="start"
         android:hint="OBSERVACIONES"
@@ -142,6 +169,57 @@
         app:layout_constraintBottom_toTopOf="@+id/button_second"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button3" />
+        app:layout_constraintTop_toBottomOf="@+id/BT_SALIDA" />
+
+    <Spinner
+        android:id="@+id/SP_COMODIN"
+        style="@style/Widget.AppCompat.Spinner.Underlined"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/spiner_style"
+        android:spinnerMode="dialog"
+        app:layout_constraintBottom_toTopOf="@+id/ED_HORA_ENTRADA"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SP_CLIENTES" />
+
+    <ImageButton
+        android:id="@+id/BT_FECHA"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:backgroundTint="@android:color/holo_orange_light"
+        android:src="@android:drawable/ic_menu_today"
+        app:layout_constraintBottom_toBottomOf="@+id/ED_FECHA"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ED_FECHA"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:maxLines="1"
+        android:text="@string/CLIENTES"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toTopOf="@+id/SP_CLIENTES"
+        app:layout_constraintStart_toStartOf="@+id/SP_CLIENTES" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/COMODIN"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="@id/SP_CLIENTES"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="@+id/SP_COMODIN" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

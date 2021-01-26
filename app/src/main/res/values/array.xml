@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="CLIENTES">
+
+        <item></item>
+        <item>FUND.IMPULSA CASTILLA-LA MANCHA</item>
+        <item>MULTIASIGNADOS</item>
+        <item>AINIA</item>
+    </array>
+
+    <array name="COMODINES">
+
+        <item></item>
+        <item>JULIO</item>
+        <item>PATRICIA</item>
+        <item>IKER</item>
+
+    </array>
+
+</resources>

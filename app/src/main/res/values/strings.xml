@@ -11,4 +11,11 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="SOLICITUD">SOLICITUD</string>
     <string name="CANCELAR">CANCELAR</string>
+    <string name="CLIENTES">CLIENTES</string>
+    <string name="GESTOR">GESTOR</string>
+    <string name="ACTUALIZAR">ACTUALIZAR</string>
+    <string name="AYUDA">AYUDA</string>
+    <string name="ENTRADA">H.ENTRADA</string>
+    <string name="SALIDA">H.SALIDA</string>
+    <string name="COMODIN">COMODIN</string>
 </resources>
