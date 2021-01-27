@@ -18,4 +18,5 @@
     <string name="ENTRADA">H.ENTRADA</string>
     <string name="SALIDA">H.SALIDA</string>
     <string name="COMODIN">COMODIN</string>
+    <string name="ELIGIR">ELIJA GESTOR</string>
 </resources>

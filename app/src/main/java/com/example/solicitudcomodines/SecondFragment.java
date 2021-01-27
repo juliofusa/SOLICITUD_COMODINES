@@ -5,6 +5,8 @@ import android.app.TimePickerDialog;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -21,6 +24,9 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.util.Calendar;
 
 public class SecondFragment extends Fragment implements AdapterView.OnItemSelectedListener,TimePickerDialog.OnTimeSetListener {
@@ -30,7 +36,8 @@ public class SecondFragment extends Fragment implements AdapterView.OnItemSelect
     private TimePickerDialog hora_picker;
     private DatePickerDialog fecha_picker;
     private Integer HORA_TIPO=1;
-    public Button ENTRADA,SALIDA,SOLICITUD;
+    public Button ENTRADA,SALIDA,SOLICITUD_EXPORT;
+    private String CLIENTE,COMODIN;
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
@@ -71,10 +78,19 @@ public class SecondFragment extends Fragment implements AdapterView.OnItemSelect
                 setdateDialog();
             }
         });
+        view.findViewById(R.id.BT_EXPORTAR).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                exportar();
+            }
+        });
     }
     private void Inicializar(){
+
         final String[] CLIENTESARRAY = getResources().getStringArray(R.array.CLIENTES);
         final String[] COMODINSARRAY = getResources().getStringArray(R.array.COMODINES);
+
+        OBSERV=getActivity().findViewById(R.id.ED_OBSERVACIONES);
 
         ArrayAdapter<String> adaptadorcliente = new ArrayAdapter<String>(getActivity(), R.layout.custom_spinner_item1, CLIENTESARRAY);
 
@@ -93,11 +109,18 @@ public class SecondFragment extends Fragment implements AdapterView.OnItemSelect
 
         Cursor cursor = db.rawQuery("SELECT * FROM GESTOR ", null);
 
-
         cursor.moveToLast();
 
-
         GESTOR.setText(cursor.getString(1));
+
+        Cursor C_comodines= db.rawQuery("SELECT * FROM COMODINES ", null);
+
+        Cursor C_clientes= db.rawQuery("SELECT * FROM CLIENTES ", null);
+
+        SimpleCursorAdapter adapterCOMODINES = new SimpleCursorAdapter(getActivity(),R.layout.custom_spinner_item1,C_comodines,(new String[] {"COMODIN"}), new int[] {R.id.Spiner_text},0);
+
+        SimpleCursorAdapter adapterCLIENTES = new SimpleCursorAdapter(getActivity(),R.layout.custom_spinner_item1,C_clientes,(new String[] {"CLIENTE"}), new int[] {R.id.Spiner_text},0);
+
 
         HORA_ENTRADA=getActivity().findViewById(R.id.ED_HORA_ENTRADA);
 
@@ -107,9 +130,9 @@ public class SecondFragment extends Fragment implements AdapterView.OnItemSelect
 
         COMODINES=getActivity().findViewById(R.id.SP_COMODIN);
 
-        CLIENTES.setAdapter(adaptadorcliente);
+        CLIENTES.setAdapter(adapterCLIENTES);
 
-        COMODINES.setAdapter(adaptadorCOMODIN);
+        COMODINES.setAdapter(adapterCOMODINES);
 
         CLIENTES.setOnItemSelectedListener(this);
 
@@ -222,15 +245,59 @@ public class SecondFragment extends Fragment implements AdapterView.OnItemSelect
     private void mensaje(String msg){
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
     }
+    public String FECHA_FICHERO(String f) {
+        String fecha_reunion=f;
+        String F_REUNION_FORMAT="_"+fecha_reunion.substring(6,10)+"_"+fecha_reunion.substring(3,5)+"_"+fecha_reunion.substring(0,2)+"_";
+        return F_REUNION_FORMAT;}
+
+    public void exportar(){
+
+
+        String NOMBREFICHERO=GESTOR.getText().toString()+" PRUEBA"+".txt";
+
+        try {
+
+            File DIR = new File(Environment.getExternalStorageDirectory().getPath()+ADAPTADORES.R_RUTA_EXPORTACIONES);
+            if (!DIR.exists()){DIR.mkdir();}
+            File file= new File(DIR,NOMBREFICHERO);
+
+            OutputStreamWriter fout = new OutputStreamWriter(new FileOutputStream(file));
+
+            String linea=System.getProperty("line.separator");
+
+            fout.write("COMODIN"+ ";" + "CLIENTE" + ";" + "HORARIO ENTRADA" + ";" + "HORARIO SALIDA" + ";" + "HORARIO_REAL_ENTRADA" + ";" + "HORARIO_REAL_SALIDA" + ";" +  "GPS_ENTRADA" + ";" + "GPS_SALIDA" + ";" + "NOTA" + ";" + "FECHA" + ";" + "GESTOR" + ";" + "ID_ANDROID" + linea);
+
+                String registro= "\""+ COMODIN +"\"" + ";" +"\""+ CLIENTE +"\""+ ";" +HORA_ENTRADA.getText().toString()+ ";" +HORA_ENTRADA.getText().toString()+ ";" +""+ ";" +""+ ";" +""+ ";" +""+ ";" +"\""+ OBSERV.getText().toString() + "\""+";" +fecha.getText().toString()+ ";" +"\""+GESTOR.getText().toString()+"\""+ ";" +"asd"+ ";" ;
+
+                fout.write(registro+linea);
+
+            fout.close();
+
+            mensaje("DATOS EXPORTADOS");
+
+            NavHostFragment.findNavController(SecondFragment.this).navigate(R.id.action_SecondFragment_to_FirstFragment);
+
+        } catch (Exception ex) {
+            Log.e("Ficheros", "Error al escribir fichero a tarjeta SD");
+        }
+
+
+
+    }
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         adapterView.getItemAtPosition(i);
+
         switch (adapterView.getId()) {
             case R.id.SP_CLIENTES:
-                mensaje(adapterView.getItemAtPosition(i).toString());
+                String CLI=adapterView.getItemAtPosition(i).toString();
+                //mensaje("CLIENTE: "+CLI);
+                CLIENTE=CLI;
                 break;
             case R.id.SP_COMODIN:
-                mensaje(adapterView.getItemAtPosition(i).toString());
+                String COMO=adapterView.getItemAtPosition(i).toString();
+                //mensaje(COMO);
+                COMODIN=COMO;
                 break;
 
     }

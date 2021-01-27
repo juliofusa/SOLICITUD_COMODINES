@@ -1,13 +1,17 @@
 package com.example.solicitudcomodines;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.ContentValues;
-import android.database.Cursor;
+import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,7 +25,10 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.PermissionRequestErrorListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity  {
@@ -32,21 +39,26 @@ public class MainActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+       // Insertar_Gestor("SIN GESTOR");
+        //requestMultiplePermissions();
+        CREAR_CARPETAS();
+
+    }
+    public void Insertar_Gestor(String gestor){
         BasedbHelper  usdbh = new BasedbHelper(this);
         SQLiteDatabase db = usdbh.getWritableDatabase();
 
-        Cursor cursor = db.rawQuery("SELECT * FROM GESTOR ", null);
-        if (cursor.getCount()==0){
+       //Cursor cursor = db.rawQuery("SELECT * FROM GESTOR ", null);
+
             ContentValues nuevoRegistro = new ContentValues();
-            nuevoRegistro.put("GESTOR", "SIN GESTOR");
+            nuevoRegistro.put("GESTOR", gestor);
             nuevoRegistro.put("ID_ANDROID","-");
             //Insertamos el registro en la base de datos
             db.insert("GESTOR", null, nuevoRegistro);
             db.close();
-        }
 
-        //requestMultiplePermissions();
-        CREAR_CARPETAS();
 
     }
     private void  requestMultiplePermissions(){
@@ -91,11 +103,180 @@ public class MainActivity extends AppCompatActivity  {
         // comprobamoms si existen los directorios "fotopuesto" y "ORDEN DE PUESTO" y creamos carpetas y subcarpetas
         if (!DIR.exists()){
             DIR.mkdirs();
+            Insertar_Gestor("SIN GESTOR");
             Toast.makeText(getApplicationContext(), "CARPETA CREADA "+Environment.getExternalStorageDirectory().getPath(), Toast.LENGTH_SHORT).show();
 
 
         }
 
+    }
+    public void importar_COMODINES(){
+
+        File DIR = new File(Environment.getExternalStorageDirectory().getPath()+ADAPTADORES.R_RUTA);
+
+        File f = new File(DIR, ADAPTADORES.A_COMODINES);
+
+        if (f.exists()) {
+
+            String texto;
+
+            int N = 0;
+
+            BasedbHelper usdbh = new BasedbHelper(this);
+
+            SQLiteDatabase db = usdbh.getWritableDatabase();
+
+            if (db != null) {
+                db.execSQL("DELETE FROM COMODINES");
+                db.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE name = '" + "COMODINES" + "'");
+                ContentValues nuevoRegistro = new ContentValues();
+                nuevoRegistro.put("COMODIN", "");
+                db.insert("COMODINES", null, nuevoRegistro);
+
+
+        }
+
+            try
+            {
+                Toast.makeText(getApplicationContext(), "IMPORTANDO COMODINES... ", Toast.LENGTH_SHORT).show();
+
+                BufferedReader COMODINES =
+                        new BufferedReader(
+                                new InputStreamReader(
+                                        new FileInputStream(f)));
+                while((texto = COMODINES.readLine())!=null){
+                    String CODIFICACION= new String(texto.getBytes("UTF-8"),"UTF-8");
+                    String [] registro=CODIFICACION.split(";");
+                    if (N==0){N += 1;}else{
+
+                        ContentValues nuevoRegistro = new ContentValues();
+
+                        nuevoRegistro.put("COMODIN", registro[0]);
+
+                        db.insert("COMODINES", null, nuevoRegistro);
+
+                        N += 1;
+
+                    }
+
+                }
+                COMODINES.close();
+
+                db.close();
+
+                f.delete();
+
+                Toast.makeText(getBaseContext(), "ARCHIVO COMODINES IMPORTADO... "+Integer.toString(N-1)+" Registros", Toast.LENGTH_SHORT).show();
+            }
+            catch (Exception ex)
+            {
+                Log.e("Ficheros", "Error al leer fichero desde tarjeta SD");
+
+                Toast.makeText(getBaseContext(), "Error al leer fichero", Toast.LENGTH_SHORT).show();
+            }
+        }else{
+
+            Toast.makeText(getBaseContext(), "NO EXISTE EL ARCHIVO", Toast.LENGTH_SHORT).show();}
+    }
+    public void importar_CLIENTES(){
+
+        File DIR = new File(Environment.getExternalStorageDirectory().getPath()+ADAPTADORES.R_RUTA);
+
+        File f = new File(DIR, ADAPTADORES.A_CLIENTES);
+
+        if (f.exists()) {
+
+            String texto;
+
+            int N = 0;
+
+            BasedbHelper usdbh = new BasedbHelper(this);
+
+            SQLiteDatabase db = usdbh.getWritableDatabase();
+
+            if (db != null) {
+                db.execSQL("DELETE FROM CLIENTES");
+                db.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE name = '" + "CLIENTES" + "'");
+                ContentValues nuevoRegistro = new ContentValues();
+                nuevoRegistro.put("CLIENTE", "");
+                db.insert("CLIENTES", null, nuevoRegistro);
+
+
+            }
+
+            try
+            {
+                Toast.makeText(getApplicationContext(), "IMPORTANDO CLIENTES... ", Toast.LENGTH_SHORT).show();
+
+                BufferedReader COMODINES =
+                        new BufferedReader(
+                                new InputStreamReader(
+                                        new FileInputStream(f)));
+                while((texto = COMODINES.readLine())!=null){
+                    String CODIFICACION= new String(texto.getBytes("UTF-8"),"UTF-8");
+                    String [] registro=CODIFICACION.split(";");
+                    if (N==0){N += 1;}else{
+
+                        ContentValues nuevoRegistro = new ContentValues();
+
+                        nuevoRegistro.put("CLIENTE", registro[0]);
+
+                        db.insert("CLIENTES", null, nuevoRegistro);
+
+                        N += 1;
+
+                    }
+
+                }
+                COMODINES.close();
+
+                db.close();
+
+                f.delete();
+
+                Toast.makeText(getBaseContext(), "ARCHIVO CLIENTES IMPORTADO... "+Integer.toString(N-1)+" Registros", Toast.LENGTH_SHORT).show();
+            }
+            catch (Exception ex)
+            {
+                Log.e("Ficheros", "Error al leer fichero desde tarjeta SD");
+
+                Toast.makeText(getBaseContext(), "Error al leer fichero", Toast.LENGTH_SHORT).show();
+            }
+        }else{
+
+            Toast.makeText(getBaseContext(), "NO EXISTE EL ARCHIVO", Toast.LENGTH_SHORT).show();}
+    }
+    private void ALERT_GESTOR(){
+        final AlertDialog.Builder login= new AlertDialog.Builder(this);
+        final EditText input= new EditText(this);
+        input.setTextColor(Color.MAGENTA);
+        login.setView(input);
+        login.setTitle(R.string.ELIGIR);
+        login.setMessage("GESTOR:");
+        login.setIcon(R.drawable.log_eulen);
+        login.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+
+                Toast.makeText(getApplicationContext(), "CANCELADO", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+        login.setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                String GESTOR = input.getText().toString().trim();
+
+                Insertar_Gestor(GESTOR.toUpperCase());
+
+                    Toast.makeText(getApplicationContext(), "El gestor "+GESTOR+"\n ha sido Establecido como gestor por defecto", Toast.LENGTH_SHORT).show();
+
+
+            }
+        });
+
+        AlertDialog alertDialog= login.create();
+        alertDialog.show();
     }
         @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -113,10 +294,18 @@ public class MainActivity extends AppCompatActivity  {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            ALERT_GESTOR();
             return true;
         }
         if (id == R.id.CLIENTES) {
             Toast.makeText(getApplicationContext(), "HAS PULSADO: clientes", Toast.LENGTH_SHORT).show();
+            importar_CLIENTES();
+            return true;
+
+        }
+        if (id == R.id.COMODIN) {
+            Toast.makeText(getApplicationContext(), "HAS PULSADO: COMODIN", Toast.LENGTH_SHORT).show();
+            importar_COMODINES();
             return true;
 
         }

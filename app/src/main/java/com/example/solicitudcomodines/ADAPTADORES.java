@@ -10,11 +10,15 @@ import java.text.SimpleDateFormat;
 public class ADAPTADORES {
 
     public static final String R_RUTA_EXPORTACIONES="/COMODIN/EXPORTACIONES/";
+    public static final String R_RUTA="/COMODIN/";
     public static final String C_COLUMNA_ID  = "_id";
     public static final String C_COLUMNA_GESTOR = "GESTOR";
     public static final String C_COLUMNA_ID_ANDROID = "ID_ANDROID";
 
     private String[] listaGESTOR = new String[]{C_COLUMNA_ID, C_COLUMNA_GESTOR,C_COLUMNA_ID_ANDROID} ;
+    public static final String A_COMODINES="COMODINES.txt";
+    public static final String A_CLIENTES="CLIENTES.txt";
+    public static final String A_GESTORES="GESTORES.txt";
 
     private Context contexto;
     private BasedbHelper dbHelper;

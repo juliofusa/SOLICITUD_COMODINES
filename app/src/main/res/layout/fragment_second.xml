@@ -15,10 +15,10 @@
         android:text="@string/CANCELAR"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2" />
+        app:layout_constraintTop_toBottomOf="@+id/ED_OBSERVACIONES" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/BT_EXPORTAR"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -31,7 +31,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/button_second"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2" />
+        app:layout_constraintTop_toBottomOf="@+id/ED_OBSERVACIONES" />
 
     <EditText
         android:id="@+id/ED_GESTOR"
@@ -153,7 +153,7 @@
         app:layout_constraintTop_toBottomOf="@+id/BT_ENTRADA" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName2"
+        android:id="@+id/ED_OBSERVACIONES"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
@@ -166,6 +166,8 @@
         android:gravity="start"
         android:hint="OBSERVACIONES"
         android:inputType="textPersonName"
+        android:maxLines="10"
+        android:minLines="1"
         app:layout_constraintBottom_toTopOf="@+id/button_second"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

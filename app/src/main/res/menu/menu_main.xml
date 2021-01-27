@@ -8,17 +8,21 @@
         android:title="@string/GESTOR"
         app:showAsAction="never" />
     <item
-        android:id="@+id/CLIENTES"
+        android:id="@+id/COMODIN"
         android:orderInCategory="101"
+        android:title="@string/COMODIN" />
+    <item
+        android:id="@+id/CLIENTES"
+        android:orderInCategory="102"
         android:title="@string/CLIENTES" />
     <item
         android:id="@+id/ACTUALIZAR"
-        android:orderInCategory="102"
+        android:orderInCategory="103"
         android:title="@string/ACTUALIZAR" />
     <item
         android:id="@+id/AYUDA"
         android:enabled="false"
         android:icon="@android:drawable/ic_dialog_info"
-        android:orderInCategory="103"
+        android:orderInCategory="104"
         android:title="@string/AYUDA" />
 </menu>
