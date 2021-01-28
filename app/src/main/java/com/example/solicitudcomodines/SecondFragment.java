@@ -37,7 +37,7 @@ public class SecondFragment extends Fragment implements AdapterView.OnItemSelect
     private DatePickerDialog fecha_picker;
     private Integer HORA_TIPO=1;
     public Button ENTRADA,SALIDA,SOLICITUD_EXPORT;
-    private String CLIENTE,COMODIN;
+    private String CLIENTE,COMODIN,ID_ANDROID,S_GESTOR;
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
@@ -112,6 +112,12 @@ public class SecondFragment extends Fragment implements AdapterView.OnItemSelect
         cursor.moveToLast();
 
         GESTOR.setText(cursor.getString(1));
+
+        S_GESTOR=GESTOR.getText().toString();
+
+        int l=S_GESTOR.length();
+
+        ID_ANDROID=String.valueOf(l)+S_GESTOR.substring(l-1,l)+S_GESTOR.substring(2,3)+String.valueOf(l-2)+S_GESTOR.substring(0,1)+S_GESTOR.substring(3,4);
 
         Cursor C_comodines= db.rawQuery("SELECT * FROM COMODINES ", null);
 
@@ -251,9 +257,9 @@ public class SecondFragment extends Fragment implements AdapterView.OnItemSelect
         return F_REUNION_FORMAT;}
 
     public void exportar(){
+        Long date = System.currentTimeMillis();
 
-
-        String NOMBREFICHERO=GESTOR.getText().toString()+" PRUEBA"+".txt";
+        String NOMBREFICHERO="SOLICITUD_"+GESTOR.getText().toString()+"_"+COMODIN+"_"+String.valueOf(date)+".txt";
 
         try {
 
@@ -267,7 +273,7 @@ public class SecondFragment extends Fragment implements AdapterView.OnItemSelect
 
             fout.write("COMODIN"+ ";" + "CLIENTE" + ";" + "HORARIO ENTRADA" + ";" + "HORARIO SALIDA" + ";" + "HORARIO_REAL_ENTRADA" + ";" + "HORARIO_REAL_SALIDA" + ";" +  "GPS_ENTRADA" + ";" + "GPS_SALIDA" + ";" + "NOTA" + ";" + "FECHA" + ";" + "GESTOR" + ";" + "ID_ANDROID" + linea);
 
-                String registro= "\""+ COMODIN +"\"" + ";" +"\""+ CLIENTE +"\""+ ";" +HORA_ENTRADA.getText().toString()+ ";" +HORA_ENTRADA.getText().toString()+ ";" +""+ ";" +""+ ";" +""+ ";" +""+ ";" +"\""+ OBSERV.getText().toString() + "\""+";" +fecha.getText().toString()+ ";" +"\""+GESTOR.getText().toString()+"\""+ ";" +"asd"+ ";" ;
+                String registro= "\""+ COMODIN +"\"" + ";" +"\""+ CLIENTE +"\""+ ";" +""+ ";" + HORA_ENTRADA.getText().toString() + ";" +HORA_SALIDA.getText().toString()+ ";" +"00:00"+ ";" +"00:00"+ ";" +""+ ";" +""+ ";" +"\""+ OBSERV.getText().toString() + "\""+";" +fecha.getText().toString()+ ";" +"\""+GESTOR.getText().toString()+"\""+ ";" +ID_ANDROID+ ";" ;
 
                 fout.write(registro+linea);
 
@@ -290,14 +296,17 @@ public class SecondFragment extends Fragment implements AdapterView.OnItemSelect
 
         switch (adapterView.getId()) {
             case R.id.SP_CLIENTES:
-                String CLI=adapterView.getItemAtPosition(i).toString();
+                Cursor cLI=(Cursor)adapterView.getItemAtPosition(i);
+
+                //String CLI=adapterView.getItemAtPosition(i).toString();
                 //mensaje("CLIENTE: "+CLI);
-                CLIENTE=CLI;
+                CLIENTE=cLI.getString(cLI.getColumnIndex(ADAPTADORES.C_COLUMNA_CLIENTE));
                 break;
             case R.id.SP_COMODIN:
-                String COMO=adapterView.getItemAtPosition(i).toString();
-                //mensaje(COMO);
-                COMODIN=COMO;
+                //String COMO=adapterView.getItemAtPosition(i).toString();
+                Cursor COM=(Cursor)adapterView.getItemAtPosition(i);
+                //mensaje(ID_ANDROID);
+                COMODIN=COM.getString(COM.getColumnIndex(ADAPTADORES.C_COLUMNA_COMODIN));
                 break;
 
     }

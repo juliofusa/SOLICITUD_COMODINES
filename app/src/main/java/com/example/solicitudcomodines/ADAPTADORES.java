@@ -14,6 +14,8 @@ public class ADAPTADORES {
     public static final String C_COLUMNA_ID  = "_id";
     public static final String C_COLUMNA_GESTOR = "GESTOR";
     public static final String C_COLUMNA_ID_ANDROID = "ID_ANDROID";
+    public static final String C_COLUMNA_CLIENTE = "CLIENTE";
+    public static final String C_COLUMNA_COMODIN = "COMODIN";
 
     private String[] listaGESTOR = new String[]{C_COLUMNA_ID, C_COLUMNA_GESTOR,C_COLUMNA_ID_ANDROID} ;
     public static final String A_COMODINES="COMODINES.txt";
