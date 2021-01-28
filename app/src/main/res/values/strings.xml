@@ -19,4 +19,5 @@
     <string name="SALIDA">H.SALIDA</string>
     <string name="COMODIN">COMODIN</string>
     <string name="ELIGIR">ELIJA GESTOR</string>
+    <string name="hora">00:00</string>
 </resources>

@@ -38,6 +38,7 @@ public class SecondFragment extends Fragment implements AdapterView.OnItemSelect
     private Integer HORA_TIPO=1;
     public Button ENTRADA,SALIDA,SOLICITUD_EXPORT;
     private String CLIENTE,COMODIN,ID_ANDROID,S_GESTOR;
+    private SOLICITUD solo;
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
