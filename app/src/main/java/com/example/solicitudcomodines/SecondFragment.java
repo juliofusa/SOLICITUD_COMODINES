@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -88,14 +87,14 @@ public class SecondFragment extends Fragment implements AdapterView.OnItemSelect
     }
     private void Inicializar(){
 
-        final String[] CLIENTESARRAY = getResources().getStringArray(R.array.CLIENTES);
-        final String[] COMODINSARRAY = getResources().getStringArray(R.array.COMODINES);
+        //final String[] CLIENTESARRAY = getResources().getStringArray(R.array.CLIENTES);
+        //final String[] COMODINSARRAY = getResources().getStringArray(R.array.COMODINES);
 
         OBSERV=getActivity().findViewById(R.id.ED_OBSERVACIONES);
 
-        ArrayAdapter<String> adaptadorcliente = new ArrayAdapter<String>(getActivity(), R.layout.custom_spinner_item1, CLIENTESARRAY);
+        //ArrayAdapter<String> adaptadorcliente = new ArrayAdapter<String>(getActivity(), R.layout.custom_spinner_item1, CLIENTESARRAY);
 
-        ArrayAdapter<String> adaptadorCOMODIN = new ArrayAdapter<String>(getActivity(), R.layout.custom_spinner_item1, COMODINSARRAY);
+        //ArrayAdapter<String> adaptadorCOMODIN = new ArrayAdapter<String>(getActivity(), R.layout.custom_spinner_item1, COMODINSARRAY);
 
          ENTRADA=getActivity().findViewById(R.id.BT_ENTRADA);
 
@@ -114,11 +113,15 @@ public class SecondFragment extends Fragment implements AdapterView.OnItemSelect
 
         GESTOR.setText(cursor.getString(1));
 
+        //solo.setGESTOR(cursor.getString(1));
+
         S_GESTOR=GESTOR.getText().toString();
 
-        int l=S_GESTOR.length();
+        //int l=S_GESTOR.length();
 
-        ID_ANDROID=String.valueOf(l)+S_GESTOR.substring(l-1,l)+S_GESTOR.substring(2,3)+String.valueOf(l-2)+S_GESTOR.substring(0,1)+S_GESTOR.substring(3,4);
+        ID_ANDROID=cursor.getString(2);
+
+        //solo.setID_ANDROID(cursor.getString(2));
 
         Cursor C_comodines= db.rawQuery("SELECT * FROM COMODINES ", null);
 
@@ -149,6 +152,7 @@ public class SecondFragment extends Fragment implements AdapterView.OnItemSelect
 
 
     }
+
 
     private void setTimeField(){
 
@@ -232,15 +236,19 @@ public class SecondFragment extends Fragment implements AdapterView.OnItemSelect
         int dia = c.get(Calendar.DAY_OF_MONTH);
         int diasemana= c.get(Calendar.DAY_OF_WEEK);
 
-        mensaje(String.valueOf(diasemana)+"-"+String.valueOf(dia));
+
         DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker View, int year, int mes, int dia) {
 
                 fecha.setText(dia+"/"+(mes+1)+"/"+year);
+                //solo.setFECHA(dia+"/"+(mes+1)+"/"+year);
 
-                //if (diasemana==1 || diasemana==7){mensaje("Es un fin de semana");}
-                mensaje(String.valueOf(diasemana));
+                String d=Diadelasemana(dia,mes,year);
+
+                if (d.equals("Sabado") || d.equals("Domingo")) {mensaje("ATENCION: EL DIA SOLICITADO ES "+d.toString()+" Y ES FIN DE SEMANA");}
+
+
 
             }
         }
@@ -249,8 +257,21 @@ public class SecondFragment extends Fragment implements AdapterView.OnItemSelect
         datePickerDialog.show();
 
     }
+
+    public String Diadelasemana(int dia,int mes,int aNo){
+
+        Calendar now = Calendar.getInstance();
+
+        now.set(aNo,mes,dia);
+
+        String [] diassemana={"Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"};
+
+        return diassemana[now.get(Calendar.DAY_OF_WEEK) - 1];
+
+    }
+
     private void mensaje(String msg){
-        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
     }
     public String FECHA_FICHERO(String f) {
         String fecha_reunion=f;
@@ -302,12 +323,14 @@ public class SecondFragment extends Fragment implements AdapterView.OnItemSelect
                 //String CLI=adapterView.getItemAtPosition(i).toString();
                 //mensaje("CLIENTE: "+CLI);
                 CLIENTE=cLI.getString(cLI.getColumnIndex(ADAPTADORES.C_COLUMNA_CLIENTE));
+                //solo.setCLIENTE(cLI.getString(cLI.getColumnIndex(ADAPTADORES.C_COLUMNA_CLIENTE)));
                 break;
             case R.id.SP_COMODIN:
                 //String COMO=adapterView.getItemAtPosition(i).toString();
                 Cursor COM=(Cursor)adapterView.getItemAtPosition(i);
                 //mensaje(ID_ANDROID);
                 COMODIN=COM.getString(COM.getColumnIndex(ADAPTADORES.C_COLUMNA_COMODIN));
+                //solo.setCOMODIN(COM.getString(COM.getColumnIndex(ADAPTADORES.C_COLUMNA_COMODIN)));
                 break;
 
     }

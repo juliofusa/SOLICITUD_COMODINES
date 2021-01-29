@@ -20,4 +20,5 @@
     <string name="COMODIN">COMODIN</string>
     <string name="ELIGIR">ELIJA GESTOR</string>
     <string name="hora">00:00</string>
+    <string name="FECHA">FECHA</string>
 </resources>

@@ -6,6 +6,8 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class ADAPTADORES {
 
@@ -49,22 +51,23 @@ public class ADAPTADORES {
 
         return c;
     }
-    public static final String FECHAconformato() {
+    public static  String FECHAconformato() {
         Long date = System.currentTimeMillis()+172800000;
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        String dateString = sdf.format(date);
-        return dateString;
+        //String dateString =
+        return sdf.format(date);
     }
 
 
     public static final String HORAconformato() {
         Long date = System.currentTimeMillis();
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.ITALIAN);
         String dateString = sdf.format(date);
         return dateString;
     }
-    public static final String mesyano(String FECHA){
+    //devuelve String con el MES Y AÑO
+    public static  final String mesyano(String FECHA){
         String mmes="",anno="",mesyaNo="";
 
         anno = FECHA.substring(6);
@@ -113,5 +116,18 @@ public class ADAPTADORES {
 
 
         return mesyaNo;
+    }
+
+    //devuelve String con el dia de semana
+    public static  final String Diadelasemana(int dia,int mes,int aNo){
+
+        Calendar now = Calendar.getInstance();
+
+        now.set(aNo,mes,dia);
+
+        String [] diassemana={"Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"};
+
+        //return diassemana[now.get(Calendar.DAY_OF_WEEK) - 1];
+        return diassemana[0];
     }
 }

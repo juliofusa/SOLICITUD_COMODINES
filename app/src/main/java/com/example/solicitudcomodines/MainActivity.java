@@ -46,15 +46,20 @@ public class MainActivity extends AppCompatActivity  {
         CREAR_CARPETAS();
 
     }
-    public void Insertar_Gestor(String gestor){
+    public void Insertar_Gestor(String gestor ){
         BasedbHelper  usdbh = new BasedbHelper(this);
         SQLiteDatabase db = usdbh.getWritableDatabase();
 
        //Cursor cursor = db.rawQuery("SELECT * FROM GESTOR ", null);
+        String Id_android;
+
+        Integer l=gestor.length();
+
+            Id_android=String.valueOf(l)+gestor.substring(l-1,l)+gestor.substring(2,3)+String.valueOf(l-2)+gestor.substring(0,1)+gestor.substring(3,4);
 
             ContentValues nuevoRegistro = new ContentValues();
             nuevoRegistro.put("GESTOR", gestor);
-            nuevoRegistro.put("ID_ANDROID","-");
+            nuevoRegistro.put("ID_ANDROID",Id_android);
             //Insertamos el registro en la base de datos
             db.insert("GESTOR", null, nuevoRegistro);
             db.close();
@@ -252,7 +257,7 @@ public class MainActivity extends AppCompatActivity  {
         input.setTextColor(Color.MAGENTA);
         login.setView(input);
         login.setTitle(R.string.ELIGIR);
-        login.setMessage("GESTOR:");
+        login.setMessage("GESTOR (4 min):");
         login.setIcon(R.drawable.log_eulen);
         login.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
             @Override
@@ -311,6 +316,8 @@ public class MainActivity extends AppCompatActivity  {
         }
         if (id == R.id.ACTUALIZAR) {
             Toast.makeText(getApplicationContext(), "HAS PULSADO: ACTUALIZAR", Toast.LENGTH_SHORT).show();
+            importar_CLIENTES();
+            importar_COMODINES();
             return true;}
 
         if (id == R.id.AYUDA) {
