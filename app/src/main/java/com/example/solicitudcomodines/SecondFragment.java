@@ -151,6 +151,8 @@ public class SecondFragment extends Fragment implements AdapterView.OnItemSelect
         setTimeField();
 
 
+
+
     }
 
 
@@ -246,7 +248,7 @@ public class SecondFragment extends Fragment implements AdapterView.OnItemSelect
 
                 String d=Diadelasemana(dia,mes,year);
 
-                if (d.equals("Sabado") || d.equals("Domingo")) {mensaje("ATENCION: EL DIA SOLICITADO ES "+d.toString()+" Y ES FIN DE SEMANA");}
+                if (d.equals("Sabado") || d.equals("Domingo")) {mensaje("ATENCION: EL DIA SOLICITADO ES "+d+" Y ES FIN DE SEMANA");}
 
 
 
@@ -274,14 +276,14 @@ public class SecondFragment extends Fragment implements AdapterView.OnItemSelect
         Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
     }
     public String FECHA_FICHERO(String f) {
-        String fecha_reunion=f;
-        String F_REUNION_FORMAT="_"+fecha_reunion.substring(6,10)+"_"+fecha_reunion.substring(3,5)+"_"+fecha_reunion.substring(0,2)+"_";
+
+        String F_REUNION_FORMAT="_"+f.substring(6,10)+"_"+f.substring(3,5)+"_"+f.substring(0,2)+"_";
         return F_REUNION_FORMAT;}
 
     public void exportar(){
         Long date = System.currentTimeMillis();
 
-        String NOMBREFICHERO="SOLICITUD_"+GESTOR.getText().toString()+"_"+COMODIN+"_"+String.valueOf(date)+".txt";
+        String NOMBREFICHERO="SOLICITUD_"+GESTOR.getText().toString()+"_"+COMODIN+"_"+date+".txt";
 
         try {
 
@@ -295,7 +297,7 @@ public class SecondFragment extends Fragment implements AdapterView.OnItemSelect
 
             fout.write("COMODIN"+ ";" + "CLIENTE" + ";" + "HORARIO ENTRADA" + ";" + "HORARIO SALIDA" + ";" + "HORARIO_REAL_ENTRADA" + ";" + "HORARIO_REAL_SALIDA" + ";" +  "GPS_ENTRADA" + ";" + "GPS_SALIDA" +  "DIRECCION_ENTRADA" + ";" + "DIRECCION_SALIDA"+ ";" + "NOTA" + ";" + "FECHA" + ";" + "GESTOR" + ";" + "ID_ANDROID" + linea);
 
-                String registro= "\""+ COMODIN +"\"" + ";" +"\""+ CLIENTE +"\""+ ";" +""+ ";" + HORA_ENTRADA.getText().toString() + ";" +HORA_SALIDA.getText().toString()+ ";" +"00:00"+ ";" +"00:00"+ ";" +""+ ";" +""+ ";"+ ";" +""+ ";" +""+ ";" +"\""+ OBSERV.getText().toString() + "\""+";" +fecha.getText().toString()+ ";" +"\""+GESTOR.getText().toString()+"\""+ ";" +ID_ANDROID+ ";" ;
+                String registro= "\""+ COMODIN +"\"" + ";" +"\""+ CLIENTE +"\""+ ";" +""+ ";" + HORA_ENTRADA.getText().toString() + ";" +HORA_SALIDA.getText().toString()+ ";" +"00:00"+ ";" +"00:00"+ ";" +""+ ";" +""+ ";"+""+ ";" +""+ ";" +"\""+ OBSERV.getText().toString() + "\""+";" +fecha.getText().toString()+ ";" +"\""+GESTOR.getText().toString()+"\""+ ";" +ID_ANDROID+ ";" ;
 
                 fout.write(registro+linea);
 
