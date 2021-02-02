@@ -136,6 +136,7 @@ public class MainActivity extends AppCompatActivity  {
                 db.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE name = '" + "COMODINES" + "'");
                 ContentValues nuevoRegistro = new ContentValues();
                 nuevoRegistro.put("COMODIN", "");
+                nuevoRegistro.put("DNI", "");
                 db.insert("COMODINES", null, nuevoRegistro);
 
 
@@ -157,6 +158,8 @@ public class MainActivity extends AppCompatActivity  {
                         ContentValues nuevoRegistro = new ContentValues();
 
                         nuevoRegistro.put("COMODIN", registro[0]);
+
+                        nuevoRegistro.put("DNI", registro[1]);
 
                         db.insert("COMODINES", null, nuevoRegistro);
 
