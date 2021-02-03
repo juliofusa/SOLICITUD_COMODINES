@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -14,24 +15,23 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.MultiplePermissionsReport;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.DexterError;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.PermissionRequestErrorListener;
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity  {
+    private static final int CODIGO_PERMISOS_write = 1;
+    // Banderas que indicarán si tenemos permisos
+    private boolean   tienePermisoAlmacenamiento = false;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +40,25 @@ public class MainActivity extends AppCompatActivity  {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
+        int estadoDePermiso = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE);
+        if (estadoDePermiso == PackageManager.PERMISSION_GRANTED) {
+            // Aquí el usuario dio permisos para acceder
+        } else {
+            // Si no, entonces pedimos permisos...
+            ActivityCompat.requestPermissions(MainActivity.this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    CODIGO_PERMISOS_write);
+            Insertar_Gestor("SIN GESTOR");
+        }
        // Insertar_Gestor("SIN GESTOR");
-        //requestMultiplePermissions();
+
+
         CREAR_CARPETAS();
 
     }
+
+
+
     public void Insertar_Gestor(String gestor ){
         BasedbHelper  usdbh = new BasedbHelper(this);
         SQLiteDatabase db = usdbh.getWritableDatabase();
@@ -66,39 +79,7 @@ public class MainActivity extends AppCompatActivity  {
 
 
     }
-    private void  requestMultiplePermissions(){
-        Dexter.withContext(this)
-                .withPermissions(
-                        //Manifest.permission.CAMERA,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.READ_EXTERNAL_STORAGE)
-                .withListener(new MultiplePermissionsListener() {
-                    @Override
-                    public void onPermissionsChecked(MultiplePermissionsReport report) {
-                        // check if all permissions are granted
-                        if (report.areAllPermissionsGranted()) {
-                            Toast.makeText(getApplicationContext(), "Todos permisos han sido otorgados por el Usuario!", Toast.LENGTH_SHORT).show();
-                        }
 
-                        // check for permanent denial of any permission
-                        if (report.isAnyPermissionPermanentlyDenied()) {
-                            // show alert dialog navigating to Settings
-                            //openSettingsDialog();
-                        }
-                    }
-
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
-                        token.continuePermissionRequest();
-                    }
-                }).
-                withErrorListener(new PermissionRequestErrorListener() {
-                    @Override
-                    public void onError(DexterError error) {
-                        Toast.makeText(getApplicationContext(), "Error al dar permisos! ", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .onSameThread();}
     private void CREAR_CARPETAS(){
         // listado de carpetas a crear
         File DIR = new File(Environment.getExternalStorageDirectory().getPath()+ADAPTADORES.R_RUTA_EXPORTACIONES);
@@ -109,7 +90,7 @@ public class MainActivity extends AppCompatActivity  {
         if (!DIR.exists()){
             DIR.mkdirs();
             Insertar_Gestor("SIN GESTOR");
-            Toast.makeText(getApplicationContext(), "CARPETA CREADA "+Environment.getExternalStorageDirectory().getPath(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), "CARPETA CREADA "+Environment.getExternalStorageDirectory().getPath(), Toast.LENGTH_SHORT).show();
 
 
         }
@@ -285,6 +266,47 @@ public class MainActivity extends AppCompatActivity  {
 
         AlertDialog alertDialog= login.create();
         alertDialog.show();
+    }
+    private void verificarYPedirPermisosDeAlmacenamiento() {
+        int estadoDePermiso = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (estadoDePermiso == PackageManager.PERMISSION_GRANTED) {
+            // En caso de que haya dado permisos ponemos la bandera en true
+            // y llamar al método
+            permisoDeAlmacenamientoConcedido();
+        } else {
+            // Si no, entonces pedimos permisos. Ahora mira onRequestPermissionsResult
+            ActivityCompat.requestPermissions(MainActivity.this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    CODIGO_PERMISOS_write);
+        }
+    }
+    private void permisoDeAlmacenamientoConcedido() {
+        // Aquí establece las banderas o haz lo que
+        // ibas a hacer cuando el permiso se concediera. Por
+        // ejemplo puedes poner la bandera en true y más
+        // tarde en otra función comprobar esa bandera
+        Toast.makeText(MainActivity.this, "El permiso para el almacenamiento está concedido", Toast.LENGTH_SHORT).show();
+        tienePermisoAlmacenamiento = true;
+    }
+
+    private void permisoDeAlmacenamientoDenegado() {
+        // Esto se llama cuando el usuario hace click en "Denegar" o
+        // cuando lo denegó anteriormente
+        Toast.makeText(MainActivity.this, "El permiso para el almacenamiento está denegado", Toast.LENGTH_SHORT).show();
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case CODIGO_PERMISOS_write:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    permisoDeAlmacenamientoConcedido();
+                } else {
+                    permisoDeAlmacenamientoDenegado();
+                }
+                break;
+            // Aquí más casos dependiendo de los permisos
+            // case OTRO_CODIGO_DE_PERMISOS...
+        }
     }
         @Override
     public boolean onCreateOptionsMenu(Menu menu) {

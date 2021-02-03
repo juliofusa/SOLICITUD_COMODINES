@@ -81,7 +81,14 @@ public class SecondFragment extends Fragment implements AdapterView.OnItemSelect
         view.findViewById(R.id.BT_EXPORTAR).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                exportar();
+                if (COMODIN.equals("")){
+                    mensaje(getString(R.string.falta_comodin));
+                }else{
+                    if (CLIENTE.equals("")){
+                        mensaje(getString(R.string.falta_cliente));
+                    }else{exportar();}
+                }
+
             }
         });
     }
