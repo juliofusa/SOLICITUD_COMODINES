@@ -5,7 +5,6 @@ import android.app.TimePickerDialog;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -294,7 +293,7 @@ public class SecondFragment extends Fragment implements AdapterView.OnItemSelect
 
         try {
 
-            File DIR = new File(Environment.getExternalStorageDirectory().getPath()+ADAPTADORES.R_RUTA_EXPORTACIONES);
+            File DIR = new File(getActivity().getExternalFilesDir(null)+ADAPTADORES.R_RUTA_EXPORTACIONES);
             if (!DIR.exists()){DIR.mkdir();}
             File file= new File(DIR,NOMBREFICHERO);
 

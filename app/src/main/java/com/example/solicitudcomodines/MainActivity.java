@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -82,7 +81,7 @@ public class MainActivity extends AppCompatActivity  {
 
     private void CREAR_CARPETAS(){
         // listado de carpetas a crear
-        File DIR = new File(Environment.getExternalStorageDirectory().getPath()+ADAPTADORES.R_RUTA_EXPORTACIONES);
+        File DIR = new File(this.getExternalFilesDir(null)+ADAPTADORES.R_RUTA_EXPORTACIONES);
 
 
 
@@ -98,7 +97,7 @@ public class MainActivity extends AppCompatActivity  {
     }
     public void importar_COMODINES(){
 
-        File DIR = new File(Environment.getExternalStorageDirectory().getPath()+ADAPTADORES.R_RUTA);
+        File DIR = new File(this.getExternalFilesDir(null)+ADAPTADORES.R_RUTA);
 
         File f = new File(DIR, ADAPTADORES.A_COMODINES);
 
@@ -169,7 +168,7 @@ public class MainActivity extends AppCompatActivity  {
     }
     public void importar_CLIENTES(){
 
-        File DIR = new File(Environment.getExternalStorageDirectory().getPath()+ADAPTADORES.R_RUTA);
+        File DIR = new File(this.getExternalFilesDir(null)+ADAPTADORES.R_RUTA);
 
         File f = new File(DIR, ADAPTADORES.A_CLIENTES);
 
