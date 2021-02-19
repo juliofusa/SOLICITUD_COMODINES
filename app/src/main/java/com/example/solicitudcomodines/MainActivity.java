@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -152,7 +153,7 @@ public class MainActivity extends AppCompatActivity  {
 
                 db.close();
 
-                f.delete();
+               //f.delete();
 
                 Toast.makeText(getBaseContext(), "ARCHIVO COMODINES IMPORTADO... "+Integer.toString(N-1)+" Registros", Toast.LENGTH_SHORT).show();
             }
@@ -220,7 +221,7 @@ public class MainActivity extends AppCompatActivity  {
 
                 db.close();
 
-                f.delete();
+               // f.delete();
 
                 Toast.makeText(getBaseContext(), "ARCHIVO CLIENTES IMPORTADO... "+Integer.toString(N-1)+" Registros", Toast.LENGTH_SHORT).show();
             }
@@ -234,6 +235,82 @@ public class MainActivity extends AppCompatActivity  {
 
             Toast.makeText(getBaseContext(), "NO EXISTE EL ARCHIVO", Toast.LENGTH_SHORT).show();}
     }
+
+    public void importar_Planing(){
+
+        File DIR = new File(this.getExternalFilesDir(null)+ADAPTADORES.R_RUTA);
+
+        File f = new File(DIR, ADAPTADORES.A_PLAN);
+
+        if (f.exists()) {
+
+            String texto;
+
+            int N = 0;
+
+            BasedbHelper usdbh = new BasedbHelper(this);
+
+            SQLiteDatabase db = usdbh.getWritableDatabase();
+
+            if (db != null) {
+                db.execSQL("DELETE FROM SOLICITUD");
+                db.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE name = '" + "SOLICITUD" + "'");
+
+
+
+            }
+
+            try
+            {
+                Toast.makeText(getApplicationContext(), "IMPORTANDO PLANNING... ", Toast.LENGTH_SHORT).show();
+
+                BufferedReader COMODINES =
+                        new BufferedReader(
+                                new InputStreamReader(
+                                        new FileInputStream(f)));
+                while((texto = COMODINES.readLine())!=null){
+                    String CODIFICACION= new String(texto.getBytes("UTF-8"),"UTF-8");
+                    String [] registro=CODIFICACION.split(";");
+                    if (N==0){N += 1;}else{
+
+                        ContentValues nuevoRegistro = new ContentValues();
+
+                        nuevoRegistro.put("COMODIN", registro[0]);
+                        nuevoRegistro.put("CLIENTE", registro[1]);
+                        nuevoRegistro.put("HORA_ENTRADA", registro[3]);
+                        nuevoRegistro.put("HORA_SALIDA", registro[4]);
+                        nuevoRegistro.put("OBSERVACION", registro[11]);
+                        nuevoRegistro.put("FECHA", registro[12]);
+                        nuevoRegistro.put("GESTOR", registro[13]);
+                        //nuevoRegistro.put("ID_ANDROID", registro[14]);
+
+                        db.insert("SOLICITUD", null, nuevoRegistro);
+
+                        N += 1;
+
+                    }
+
+                }
+                COMODINES.close();
+
+                db.close();
+
+                //f.delete();
+
+                Toast.makeText(getBaseContext(), "ARCHIVO PLANIG IMPORTADO... "+Integer.toString(N-1)+" Registros", Toast.LENGTH_SHORT).show();
+            }
+            catch (Exception ex)
+            {
+                Log.e("Ficheros", "Error al leer fichero desde tarjeta SD");
+
+                Toast.makeText(getBaseContext(), "Error al leer fichero", Toast.LENGTH_SHORT).show();
+            }
+        }else{
+
+            Toast.makeText(getBaseContext(), "NO EXISTE EL ARCHIVO", Toast.LENGTH_SHORT).show();}
+
+    }
+
     private void ALERT_GESTOR(){
         final AlertDialog.Builder login= new AlertDialog.Builder(this);
         final EditText input= new EditText(this);
@@ -327,21 +404,28 @@ public class MainActivity extends AppCompatActivity  {
             return true;
         }
         if (id == R.id.CLIENTES) {
-            Toast.makeText(getApplicationContext(), "HAS PULSADO: clientes", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "HAS PULSADO: ACTUALIZAR clientes", Toast.LENGTH_SHORT).show();
             importar_CLIENTES();
             return true;
 
         }
         if (id == R.id.COMODIN) {
-            Toast.makeText(getApplicationContext(), "HAS PULSADO: COMODIN", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "HAS PULSADO: ACTUALIZAR COMODIN", Toast.LENGTH_SHORT).show();
             importar_COMODINES();
             return true;
 
         }
         if (id == R.id.ACTUALIZAR) {
-            Toast.makeText(getApplicationContext(), "HAS PULSADO: ACTUALIZAR", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "HAS PULSADO: ACTUALIZAR TODO", Toast.LENGTH_SHORT).show();
             importar_CLIENTES();
             importar_COMODINES();
+            importar_Planing();
+            return true;}
+
+        if (id == R.id.SOLICITUDES) {
+            Toast.makeText(getApplicationContext(), "HAS PULSADO: ACTUALIZAR TODO", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(this, SOLICITUDES.class);
+            startActivity(i);
             return true;}
 
         if (id == R.id.AYUDA) {

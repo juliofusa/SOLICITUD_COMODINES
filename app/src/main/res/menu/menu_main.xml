@@ -20,9 +20,13 @@
         android:orderInCategory="103"
         android:title="@string/ACTUALIZAR" />
     <item
+        android:id="@+id/SOLICITUDES"
+        android:orderInCategory="104"
+        android:title="@string/SOLICITUD" />
+    <item
         android:id="@+id/AYUDA"
         android:enabled="false"
         android:icon="@android:drawable/ic_dialog_info"
-        android:orderInCategory="104"
+        android:orderInCategory="105"
         android:title="@string/AYUDA" />
 </menu>

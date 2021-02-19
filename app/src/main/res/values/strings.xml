@@ -17,10 +17,11 @@
     <string name="AYUDA">AYUDA</string>
     <string name="ENTRADA">H.ENTRADA</string>
     <string name="SALIDA">H.SALIDA</string>
-    <string name="COMODIN">COMODIN</string>
+    <string name="COMODIN">COMODINES</string>
     <string name="ELIGIR">ELIJA GESTOR</string>
     <string name="hora">00:00</string>
     <string name="FECHA">FECHA</string>
     <string name="falta_comodin">Atencion: Falta el nombre del Comodin</string>
     <string name="falta_cliente">Atencion: Falta el Cliente</string>
+    <string name="OBSERVACIONES">OBSERVACIONES</string>
 </resources>

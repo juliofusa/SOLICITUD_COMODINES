@@ -23,6 +23,7 @@ public class ADAPTADORES {
     public static final String A_COMODINES="COMODINES.txt";
     public static final String A_CLIENTES="CLIENTES.txt";
     public static final String A_GESTORES="GESTORES.txt";
+    public static final String A_PLAN="PLAN.txt";
 
     private Context contexto;
     private BasedbHelper dbHelper;

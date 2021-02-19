@@ -77,7 +77,7 @@ public class SecondFragment extends Fragment implements AdapterView.OnItemSelect
                 setdateDialog();
             }
         });
-        view.findViewById(R.id.BT_EXPORTAR).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.imageButton2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (COMODIN.equals("")){
@@ -289,7 +289,25 @@ public class SecondFragment extends Fragment implements AdapterView.OnItemSelect
     public void exportar(){
         Long date = System.currentTimeMillis();
 
-        String NOMBREFICHERO="SOLICITUD_"+GESTOR.getText().toString()+"_"+COMODIN+"_"+date+".txt";
+        String NOMBREFICHERO="SOLICITUD_"+GESTOR.getText().toString()+"_"+COMODIN+"_"+CLIENTE+"_"+date;
+
+        NOMBREFICHERO=NOMBREFICHERO.replace("."," ");
+
+        Toast.makeText(getContext(), "tamaño: "+NOMBREFICHERO.length(), Toast.LENGTH_SHORT).show();
+
+       if (NOMBREFICHERO.length()>=60){
+
+           NOMBREFICHERO=NOMBREFICHERO.substring(0,60);
+
+           NOMBREFICHERO=NOMBREFICHERO+".txt";
+
+           Toast.makeText(getContext(), "tamaño: "+NOMBREFICHERO.length(), Toast.LENGTH_SHORT).show();
+
+       }else{
+
+           NOMBREFICHERO=NOMBREFICHERO+".txt";
+
+       }
 
         try {
 

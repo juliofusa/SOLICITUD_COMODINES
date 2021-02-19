@@ -62,7 +62,8 @@
         app:layout_constraintEnd_toEndOf="@+id/SP_COMODIN"
         app:layout_constraintStart_toStartOf="@+id/ED_GESTOR"
         app:layout_constraintTop_toBottomOf="@+id/ED_GESTOR"
-        app:layout_constraintVertical_bias="0.12" />
+        app:layout_constraintVertical_bias="0.12"
+        android:focusable="true" />
 
     <EditText
         android:id="@+id/ED_HORA_ENTRADA"
@@ -76,7 +77,7 @@
         android:ems="10"
         android:focusableInTouchMode="false"
         android:gravity="clip_horizontal|center_horizontal|center_vertical"
-        android:hint="00:00"
+        android:hint="@string/hora"
         android:inputType="time"
         android:text="@string/hora"
         android:textColor="@color/black"
@@ -115,7 +116,7 @@
         android:ems="10"
         android:focusableInTouchMode="false"
         android:gravity="center_horizontal|center_vertical"
-        android:hint="00:00"
+        android:hint="@string/hora"
         android:inputType="time"
         android:text="@string/hora"
         android:textColor="@color/black"
@@ -148,11 +149,12 @@
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="60dp"
-        android:background="@drawable/rectangle"
+        android:background="@drawable/editext_postit"
         android:backgroundTint="@color/Color_GRIS_perla"
         android:ems="10"
         android:gravity="start"
-        android:hint="OBSERVACIONES"
+        android:hint="@string/OBSERVACIONES"
+        android:importantForAutofill="no"
         android:inputType="textPersonName"
         android:maxLines="10"
         android:minLines="1"
@@ -243,6 +245,7 @@
         android:drawablePadding="15dp"
         android:text="@string/SOLICITUD"
         android:textColor="@color/Color_amarillo_reg"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/ED_OBSERVACIONES"
         app:layout_constraintStart_toEndOf="@+id/button_second"
@@ -252,6 +255,7 @@
         android:id="@+id/button_second"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
@@ -259,6 +263,23 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/BT_EXPORTAR"
         app:layout_constraintStart_toStartOf="@+id/ED_OBSERVACIONES"
+        app:layout_constraintTop_toBottomOf="@+id/ED_OBSERVACIONES" />
+
+    <ImageButton
+        android:id="@+id/imageButton2"
+        style="@android:style/Widget.ImageButton"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/boton_pulsado"
+        android:scaleType="fitCenter"
+        android:src="@drawable/send_128"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/ED_OBSERVACIONES"
+        app:layout_constraintStart_toEndOf="@+id/button_second"
         app:layout_constraintTop_toBottomOf="@+id/ED_OBSERVACIONES" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
